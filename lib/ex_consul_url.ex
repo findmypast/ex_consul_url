@@ -22,7 +22,7 @@ defmodule ExConsulUrl do
   """
   def url_for(service_name, tags, http_client \\ HTTPoison) do
 
-    consul_host = Application.get_env(:ex_consul_url, :consul_url)
+    consul_host = Application.get_env(:ex_consul_url, :consul_host)
     url = construct_consul_url(service_name, tags, consul_host)
 
     response =

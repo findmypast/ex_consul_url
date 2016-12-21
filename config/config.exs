@@ -30,4 +30,4 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 
 
-config :ex_consul_url, consul_url: "localhost:8500"
+config :ex_consul_url, consul_host: "localhost:8500"
