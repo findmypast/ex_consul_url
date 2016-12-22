@@ -5,7 +5,7 @@ defmodule ExConsulUrl do
   end
 
   @moduledoc """
-  Provides a functionality to retrieve service urls from Consul.
+  Provides functionality to retrieve service urls from Consul.
   """
 
   @doc """
