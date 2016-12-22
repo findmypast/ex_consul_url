@@ -1,5 +1,9 @@
 defmodule ExConsulUrl do
 
+  defmodule ServiceNotFound do
+    defexception message: "Service not found"
+  end
+
   @moduledoc """
   Provides a functionality to retrieve service urls from Consul.
   """
@@ -22,20 +26,31 @@ defmodule ExConsulUrl do
 
   def url_for(service_name, tags, http_client \\ HTTPoison) do
 
-    consul_host = Application.get_env(:ex_consul_url, :consul_host)
-    url = construct_consul_url(service_name, tags, consul_host)
-
-    response =
-      case http_client.get!(url) do
-        %{body: body} -> Poison.decode!(body)
-      end
-      |> List.first
-
+    response = consul_request(service_name, tags, http_client)
     case response do
       nil -> ""
       response -> "#{response |> Map.get("ServiceAddress")}:#{response |> Map.get("ServicePort")}"
     end
 
+  end
+
+  def url_for!(service_name, tags, http_client \\ HTTPoison) do
+
+    case url_for(service_name, tags, http_client) do
+      "" -> raise ServiceNotFound
+      response -> response
+    end
+
+  end
+
+  defp consul_request(service_name, tags, http_client) do
+    consul_host = Application.get_env(:ex_consul_url, :consul_host)
+    url = construct_consul_url(service_name, tags, consul_host)
+
+    case http_client.get!(url) do
+      %{body: body} -> Poison.decode!(body)
+    end
+    |> List.first
   end
 
   defp construct_consul_url(service_name, tags, consul_host) do
