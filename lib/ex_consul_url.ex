@@ -14,12 +14,12 @@ defmodule ExConsulUrl do
     - tags: The tag of the service. Comma seprated if there are multiple tags.
 
   ## Examples
-    ```
-    iex> ExConsulUrl.url_for("my-service", "production")
+    ```elixir
+    > ExConsulUrl.url_for("my-service", "production")
     "127.0.0.1:8080"
-
     ```
   """
+
   def url_for(service_name, tags, http_client \\ HTTPoison) do
 
     consul_host = Application.get_env(:ex_consul_url, :consul_host)
@@ -31,9 +31,11 @@ defmodule ExConsulUrl do
       end
       |> List.first
 
-    service_address = response |> Map.get("ServiceAddress")
-    service_port = response |> Map.get("ServicePort")
-    "#{service_address}:#{service_port}"
+    case response do
+      nil -> ""
+      response -> "#{response |> Map.get("ServiceAddress")}:#{response |> Map.get("ServicePort")}"
+    end
+
   end
 
   defp construct_consul_url(service_name, tags, consul_host) do

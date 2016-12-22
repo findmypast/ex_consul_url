@@ -10,5 +10,9 @@ defmodule ExConsulUrlTest do
     test "Address and port correspond to requested tag" do
       assert ExConsulUrl.url_for("test", "integration", ExConsulUrl.MockHTTPClient) == "127.0.0.1:54321"
     end
+
+    test "Non existant service results in an empty string" do
+      assert ExConsulUrl.url_for("non-existant", "integration", ExConsulUrl.MockHTTPClient) == ""
+    end
   end
 end

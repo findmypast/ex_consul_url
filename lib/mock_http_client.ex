@@ -3,6 +3,8 @@ defmodule ExConsulUrl.MockHTTPClient do
   def get!(url) do
 
     cond do
+      url |> String.contains?("service/non-existant") ->
+        %{ body: "[]" }
       url |> String.contains?("tag=integration") ->
         %{
           body:
