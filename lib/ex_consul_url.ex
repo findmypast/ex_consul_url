@@ -34,6 +34,10 @@ defmodule ExConsulUrl do
 
   end
 
+  @doc """
+  Hard failure version of ExConsulUrl.url_for/2. Throws ServiceNotFound error.
+  """
+
   def url_for!(service_name, tags, http_client \\ HTTPoison) do
 
     case url_for(service_name, tags, http_client) do

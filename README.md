@@ -29,6 +29,9 @@ Given a service and it's Consul tags, retrieve the IP and port it runs on. For e
 ```elixir
 iex> ExConsulUrl.url_for("my-service", "production")
 "127.0.0.1:8080"
+
+iex> ExConsulUrl.url_for!("service-not-there", "production")
+# Throws ServiceNotFound error
 ```
 
 Note: If the service and tags map to multiple IP/port pairs, the **first** one is always chosen.
