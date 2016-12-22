@@ -27,6 +27,9 @@ end
 Given a service and it's Consul tags, retrieve the IP and port it runs on. For example:
 
 ```elixir
+iex> ExConsulUrl.url_for("consul://production.my-service")
+"http://127.0.0.1:8080"
+
 iex> ExConsulUrl.url_for("my-service", "production")
 "127.0.0.1:8080"
 
